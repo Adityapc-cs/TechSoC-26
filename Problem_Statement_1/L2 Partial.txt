@@ -1,0 +1,822 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+
+void Normal(int R, int C , int G);
+void ToriodalWrap(int R, int C , int G);
+
+int main()
+{
+    int Rows,Columns,Gens,Choice;
+    cout<<"Enter the grid dimensions Rows and Columns respectively: \n";
+    cin>>Rows>>Columns;
+    cout<<"\nEnter the number of generations to simulate: \n";
+    cin>>Gens;
+    cout<<"\nChoose the mode from below by entering their index:\n1.Toroidal Wrap\n2.Normal\n\n";
+    cin>>Choice;
+    switch(Choice)
+    {
+        case 1:
+           ToriodalWrap(Rows, Columns, Gens);
+        break;
+        
+        case 2:
+            Normal(Rows , Columns , Gens);
+        break;    
+    }
+    
+    int GenData[G][R][C] = {};
+}
+
+void Normal(int R, int C , int G)
+{
+    cout<<"\n* = Dead , # = Alive \nEnter the characters * and # for each row one by one\n";
+    char Grid[R][C];
+    int InitialPopulation = 0;
+    
+    char Temp[R][C];
+    char Temp1[R][C];
+
+    
+    for(int i=0; i<R ; i++)
+    {
+        cout<<"Row "<<i+1<<endl;
+        for(int j=0; j<C ; j++)
+        {
+            cin>>Grid[i][j];
+            if(Grid[i][j] == '#')
+            {
+                InitialPopulation++;
+            }
+        }
+    }
+    
+    memcpy(Temp , Grid , sizeof(Grid));
+    
+    int MaxPopulation = InitialPopulation;
+    
+    for(int i=0 ; i<G ;i++)
+    {
+        for(int i =0; i<R ; i++)
+        {
+            for(int j=0; j<C ; j++)
+            {
+                int Alive = 0;
+                int Dead = 0;
+                
+                if(i-1<0 || Temp[i-1][j]=='*')                                  //1
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }  
+                
+                if(i+1>=R || Temp[i+1][j]=='*')                                 //2
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                if(j-1<0 || Temp[i][j-1]=='*')                                  //3
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                if(j+1>=C || Temp[i][j+1]=='*')                                 //4
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                 
+                if(i-1<0 || j-1<0 || Temp[i-1][j-1]=='*')                       //5
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                if(i-1<0 || j+1>=C || Temp[i-1][j+1]=='*')                      //6
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                if(i+1>=R || j-1<0 || Temp[i+1][j-1]=='*')                      //7
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                if(i+1>=R || j+1>=C || Temp[i+1][j+1]=='*')                      //8
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                
+                if(Temp[i][j] == '#')
+                    {
+                        if(Alive<2)
+                        {
+                            Temp1[i][j] = '*';
+                        }
+                        else if(Alive>3)
+                        {
+                            Temp1[i][j] = '*';
+                        }
+                        else
+                        {
+                            Temp1[i][j] = '#';
+                        }
+                    }
+                else
+                {
+                    if(Alive == 3)
+                    {
+                        Temp1[i][j] = '#';
+                    }
+                    else
+                    {
+                        Temp1[i][j] = '*';
+                    }
+                }
+                
+            }
+        }
+        int TempPopulation = 0;
+        for(int i=0; i<R ; i++)
+        {
+            for(int j=0; j<C ; j++)
+            {
+                if(Temp1[i][j] == '#')
+                {
+                    TempPopulation++;
+                }
+            }
+        }    
+        if(TempPopulation>MaxPopulation)
+        {
+            MaxPopulation = TempPopulation;
+        }
+        
+        memcpy(Temp , Temp1 , sizeof(Temp1));
+    }        
+
+    int FinalPopulation = 0;
+
+    for(int i=0; i<R ; i++)
+    {
+        for(int j=0; j<C ; j++)
+        {
+            if(Temp[i][j] == '#')
+            {
+                FinalPopulation++;
+            }
+        }
+    }
+    
+    cout<<"Initial Population = "<<InitialPopulation<<endl;
+    cout<<"Final Population = "<<FinalPopulation<<endl;
+    cout<<"Maximum Population = "<<MaxPopulation<<endl;
+    cout<<endl;
+    
+    for(int i=0; i<R ; i++)
+    {
+        for(int j=0; j<C ; j++)
+        {    
+            cout<<Temp[i][j]<<" ";
+        }
+        cout<<endl;
+    }    
+}
+
+void ToriodalWrap(int R, int C , int G)
+{
+    cout<<"\n* = Dead , # = Alive \nEnter the characters * and # for each row one by one\n";
+    char Grid[R][C];
+    int InitialPopulation = 0;
+    
+    char Temp[R][C];
+    char Temp1[R][C];
+
+    
+    for(int i=0; i<R ; i++)
+    {
+        cout<<"Row "<<i+1<<endl;
+        for(int j=0; j<C ; j++)
+        {
+            cin>>Grid[i][j];
+            if(Grid[i][j] == '#')
+            {
+                InitialPopulation++;
+            }
+        }
+    }
+    
+    memcpy(Temp , Grid , sizeof(Grid));
+    
+    int MaxPopulation = InitialPopulation;
+    
+    for(int i=0 ; i<G ;i++)
+    {
+        for(int i =0; i<R ; i++)
+        {
+            for(int j=0; j<C ; j++)
+            {
+                int Alive = 0;
+                int Dead = 0;
+ ////////////////////////////////////////////////////////////////////////////////               
+                if(i-1<0)                                                       //1
+                {
+                    if(Temp[R-1][j] == '*')
+                    {
+                        Dead++;
+                    }
+                    else
+                    {
+                        Alive++;
+                    }
+                }
+                else
+                {
+                    if(Temp[i-1][j] == '*')
+                    {
+                        Dead++;
+                    }
+                    else
+                    {
+                        Alive++;
+                    }
+                }
+////////////////////////////////////////////////////////////////////////////////                
+                if(i+1>=R)                                                      //2
+                {
+                    if(Temp[0][j] == '*')
+                    {
+                        Dead++;
+                    }
+                    else
+                    {
+                        Alive++;
+                    }
+                }
+                else
+                {
+                    if(Temp[i+1][j] == '*')
+                    {
+                        Dead++;
+                    }
+                    else
+                    {
+                        Alive++;
+                    }
+                }
+////////////////////////////////////////////////////////////////////////////////                
+                if(j-1<0)                                                       //3
+                {
+                    if(Temp[i][C-1] == '*')
+                    {
+                        Dead++;
+                    }
+                    else
+                    {
+                        Alive++;
+                    }
+                }
+                else
+                {
+                    if(Temp[i][j-1] == '*')
+                    {
+                        Dead++;
+                    }
+                    else
+                    {
+                        Alive++;
+                    }
+                }
+////////////////////////////////////////////////////////////////////////////////                
+                if(j+1>=C)                                                      //4
+                {
+                    if(Temp[i][0] == '*')
+                    {
+                        Dead++;
+                    }
+                    else
+                    {
+                        Alive++;
+                    }
+                }
+                else
+                {
+                    if(Temp[i][j+1] == '*')
+                    {
+                        Dead++;
+                    }
+                    else
+                    {
+                        Alive++;
+                    }
+                }
+////////////////////////////////////////////////////////////////////////////////                
+                if(i-1<0)                                                       //5
+                {
+                    if(j-1<0)
+                    {
+                        if(Temp[R-1][C-1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                    else
+                    {
+                        if(Temp[R-1][j-1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                }
+                else
+                {
+                    if(j-1<0)
+                    {
+                        if(Temp[i-1][C-1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                    else
+                    {
+                        if(Temp[i-1][j-1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                }
+////////////////////////////////////////////////////////////////////////////////
+                if(i-1<0)                                                       //6
+                {
+                    if(j+1>=C)
+                    {
+                        if(Temp[R-1][0] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                    else
+                    {
+                        if(Temp[R-1][j+1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                }
+                else
+                {
+                    if(j+1>=C)
+                    {
+                        if(Temp[i-1][0] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                    else
+                    {
+                        if(Temp[i-1][j+1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                }                
+////////////////////////////////////////////////////////////////////////////////
+                if(i+1>=R)                                                       //7
+                {
+                    if(j-1<0)
+                    {
+                        if(Temp[0][C-1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                    else
+                    {
+                        if(Temp[0][j-1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                }
+                else
+                {
+                    if(j-1<0)
+                    {
+                        if(Temp[i+1][C-1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                    else
+                    {
+                        if(Temp[i+1][j-1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                }
+////////////////////////////////////////////////////////////////////////////////                
+                if(i+1>=R)                                                      //8
+                {
+                    if(j+1>=C)
+                    {
+                        if(Temp[0][0] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                    else
+                    {
+                        if(Temp[0][j+1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                }
+                else
+                {
+                    if(j+1>=C)
+                    {
+                        if(Temp[i+1][0] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                    else
+                    {
+                        if(Temp[i+1][j+1] == '*')
+                        {
+                            Dead++;
+                        }
+                        else
+                        {
+                            Alive++;
+                        }
+                    }
+                }
+//////////////////////////////////////////////////////////////////////////////// 
+                if(Temp[i][j] == '#')
+                    {
+                        if(Alive<2)
+                        {
+                            Temp1[i][j] = '*';
+                        }
+                        else if(Alive>3)
+                        {
+                            Temp1[i][j] = '*';
+                        }
+                        else
+                        {
+                            Temp1[i][j] = '#';
+                        }
+                    }
+                else
+                {
+                    if(Alive == 3)
+                    {
+                        Temp1[i][j] = '#';
+                    }
+                    else
+                    {
+                        Temp1[i][j] = '*';
+                    }
+                }
+                
+            }
+        }
+        int TempPopulation = 0;
+        for(int i=0; i<R ; i++)
+        {
+            for(int j=0; j<C ; j++)
+            {
+                if(Temp1[i][j] == '#')
+                {
+                    TempPopulation++;
+                }
+            }
+        }    
+        if(TempPopulation>MaxPopulation)
+        {
+            MaxPopulation = TempPopulation;
+        }
+        
+        memcpy(Temp , Temp1 , sizeof(Temp1));
+    }        
+
+    int FinalPopulation = 0;
+
+    for(int i=0; i<R ; i++)
+    {
+        for(int j=0; j<C ; j++)
+        {
+            if(Temp[i][j] == '#')
+            {
+                FinalPopulation++;
+            }
+        }
+    }
+    
+    cout<<"Initial Population = "<<InitialPopulation<<endl;
+    cout<<"Final Population = "<<FinalPopulation<<endl;
+    cout<<"Maximum Population = "<<MaxPopulation<<endl;
+    cout<<endl;
+    
+    for(int i=0; i<R ; i++)
+    {
+        for(int j=0; j<C ; j++)
+        {    
+            cout<<Temp[i][j]<<" ";
+        }
+        cout<<endl;
+    }    
+}
+
+void PatternClassifier(int R, int C , int G)
+{
+    cout<<"\n* = Dead , # = Alive \nEnter the characters * and # for each row one by one\n";
+    char Grid[R][C];
+    int InitialPopulation = 0;
+    
+    char Temp[R][C];
+    char Temp1[R][C];
+
+    
+    for(int i=0; i<R ; i++)
+    {
+        cout<<"Row "<<i+1<<endl;
+        for(int j=0; j<C ; j++)
+        {
+            cin>>Grid[i][j];
+            if(Grid[i][j] == '#')
+            {
+                InitialPopulation++;
+            }
+        }
+    }
+    
+    memcpy(Temp , Grid , sizeof(Grid));
+    
+    int MaxPopulation = InitialPopulation;
+    
+    for(int m=0 ; m<G ;m++)
+    {
+        for(int i =0; i<R ; i++)
+        {
+            for(int j=0; j<C ; j++)
+            {
+                int Alive = 0;
+                int Dead = 0;
+                
+                if(i-1<0 || Temp[i-1][j]=='*')                                  //1
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }  
+                
+                if(i+1>=R || Temp[i+1][j]=='*')                                 //2
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                if(j-1<0 || Temp[i][j-1]=='*')                                  //3
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                if(j+1>=C || Temp[i][j+1]=='*')                                 //4
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                 
+                if(i-1<0 || j-1<0 || Temp[i-1][j-1]=='*')                       //5
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                if(i-1<0 || j+1>=C || Temp[i-1][j+1]=='*')                      //6
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                if(i+1>=R || j-1<0 || Temp[i+1][j-1]=='*')                      //7
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                if(i+1>=R || j+1>=C || Temp[i+1][j+1]=='*')                      //8
+                {
+                    Dead++;
+                }
+                else
+                {
+                    Alive++;
+                }
+                
+                
+                if(Temp[i][j] == '#')
+                    {
+                        if(Alive<2)
+                        {
+                            Temp1[i][j] = '*';
+                        }
+                        else if(Alive>3)
+                        {
+                            Temp1[i][j] = '*';
+                        }
+                        else
+                        {
+                            Temp1[i][j] = '#';
+                            GenData[m][i][j] == '#'; 
+                        }
+                    }
+                else
+                {
+                    if(Alive == 3)
+                    {
+                        Temp1[i][j] = '#';
+                        GenData[m][i][j] == '#'; 
+                    }
+                    else
+                    {
+                        Temp1[i][j] = '*';
+                    }
+                }
+                
+            }
+        }
+        int TempPopulation = 0;
+        for(int i=0; i<R ; i++)
+        {
+            for(int j=0; j<C ; j++)
+            {
+                if(Temp1[i][j] == '#')
+                {
+                    TempPopulation++;
+                }
+            }
+        }    
+        if(TempPopulation>MaxPopulation)
+        {
+            MaxPopulation = TempPopulation;
+        }
+        
+        memcpy(Temp , Temp1 , sizeof(Temp1));
+    }        
+
+    int FinalPopulation = 0;
+
+    for(int i=0; i<R ; i++)
+    {
+        for(int j=0; j<C ; j++)
+        {
+            if(Temp[i][j] == '#')
+            {
+                FinalPopulation++;
+            }
+        }
+    }
+    
+    if(memcmp(GenData[G-1],GenData[G-2],sizeof(GenData)) == 0)
+    {
+        cout<<"Classification: Still Life\n";
+        cout<<"Stable at Step: 0\n";
+        cout<<"Period: 1\n"
+        cout<<"Final Population = "<<FinalPopulation<<endl;
+    }
+    
+    if(FinalPopulation == 0)
+    {
+        cout<<"Classification: Extinct"<<endl;
+        cout<<"Extinction Step: "
+        cout<<"Final Population = "<<FinalPopulation<<endl;
+    }
+    
+    for(int i = 0; i<G ;i++)
+    {
+        if(memcmp(GenData[i],GenData[G-1],sizeof(GenData[G-1])) == 0)
+        {
+            cout<<
+        }
+    }
+    
+
+    }    
+}
