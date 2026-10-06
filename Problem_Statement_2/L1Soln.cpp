@@ -4,7 +4,7 @@
 #include <cmath>
 using namespace std;
 
-class Blender
+class Bender
 {
     public:
     string name;
@@ -16,7 +16,7 @@ class Blender
     int speed;
     vector<pair<string,int>>moves{4};
     
-    Blender(const string& name , const string& element , int hp , int attack , int defence , int speed , const vector<pair<string,int>>& moves)
+    Bender(const string& name , const string& element , int hp , int attack , int defence , int speed , const vector<pair<string,int>>& moves)
     {
         this->name = name;
         this->element = element;
@@ -26,16 +26,16 @@ class Blender
         this->defence = defence;
         this->speed = speed;
         this->moves = moves;
-        cout<<"\nBlender "<<name<<" successfully created.\n";
+        cout<<"\nBender "<<name<<" successfully created.\n";
     }
     
-    static Blender userInput()
+    static Bender userInput()
     {
         string Uname, Uelement;
         int Uhp,Uattack,Udefence,Uspeed;
         vector<pair<string,int>> Umoves(4);
         
-        cout<<"Enter Blender Details: \n";
+        cout<<"Enter Bender Details: \n";
         cout<<"Name: ";
         getline(cin>>ws , Uname);
         cout<<"\nElement: ";
@@ -60,11 +60,11 @@ class Blender
             cin>>Umoves[i].second;
         }
         
-        return Blender( Uname , Uelement , Uhp , Uattack , Udefence , Uspeed , Umoves );
+        return Bender( Uname , Uelement , Uhp , Uattack , Udefence , Uspeed , Umoves );
         
     }
     
-    void damage(Blender& defender)
+    void damage(Bender& defender)
     {
         int move_index;
         while(true)
@@ -140,11 +140,11 @@ int selectAttacker()
 int main()
 {
     
-    cout<<"\n***Create Blender 1***\n\n";
-    Blender B1 = Blender::userInput();
+    cout<<"\n***Create Bender 1***\n\n";
+    Bender B1 = Bender::userInput();
     
-    cout<<"\n***Create Blender 2***\n\n";
-    Blender B2 = Blender::userInput();
+    cout<<"\n***Create Bender 2***\n\n";
+    Bender B2 = Bender::userInput();
     
     cout<<"***** Initial Stats ******\n\n";
     
@@ -153,8 +153,8 @@ int main()
     
     selectAttacker();
     
-    Blender& Attacker = (attackerIndex == 1) ? B1 : B2 ;
-    Blender& Defender = (attackerIndex == 1) ? B2 : B1 ;
+    Bender& Attacker = (attackerIndex == 1) ? B1 : B2 ;
+    Bender& Defender = (attackerIndex == 1) ? B2 : B1 ;
     
     
     Attacker.damage(Defender);
