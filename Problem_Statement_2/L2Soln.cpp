@@ -31,7 +31,7 @@ class Bender
         cout<<"\nBender "<<name<<" successfully created.\n";
     }
    
-    static Bender userInput()
+static Bender userInput()
     {
         string Uname, Uelement;
         int Uhp,Uattack,Udefence,Uspeed;
@@ -40,34 +40,32 @@ class Bender
         cout<<"Enter Bender Details: \n";
         cout<<"Name: ";
         getline(cin>>ws , Uname);
-        cout<<"\nElement: ";
+        
+        cout<<"\n--- Element Guide ---\n";
+        cout<<"Choose from: Water, Fire, Air, or Earth.\n";
+        cout<<"Rule: Water beats Fire, Fire beats Air, Air beats Earth, and Earth beats Water.\n";
+        cout<<"Strong hits do double damage! Weak hits do half.\n\n";
+        cout<<"Element: ";
         getline(cin>>ws , Uelement);
        
-        cout<<"\nHP: ";
-        cin>>Uhp;
-        cout<<"\nAttack: ";
-        cin>>Uattack;
-        cout<<"\nDefence: ";
-        cin>>Udefence;
-        cout<<"\nSpeed: ";
-        cin>>Uspeed;
+        cout<<"\n--- Stats Guide ---\n";
+        cout<<"For a fair game, HP should ideally be between 100 - 200.\n";
+        cout<<"Keep Attack, Defence, and Speed around 50-75.\n";
+        cout<<"Enter HP , Attack , Defence and Speed (separated by spaces): \n";
+        cin>>Uhp>>Uattack>>Udefence>>Uspeed;
        
         cout<<"\nEnter moves attributes (name,power) one by one:\n";
         for(int i = 0 ; i < 4 ; i++)
         {
             cout<<"\nMove "<<i+1<<"\n";
-            cout<<"Name:";
+            cout<<"Name and Power :\n";
             getline(cin>>ws , Umoves[i].first);
-            cout<<"Power:";
             cin>>Umoves[i].second;
         }
        
         return Bender( Uname , Uelement , Uhp , Uattack , Udefence , Uspeed , Umoves );
        
     }
-   
-   
-   
     void displayStats()
     {
         cout<<"\n";
